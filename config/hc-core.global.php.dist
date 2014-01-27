@@ -1,0 +1,4 @@
+return array('hc-core' => array(
+    'defaultUserRole' => '2',
+    'defaultLanguage' => 'ru'
+));

@@ -1,0 +1,37 @@
+{
+    "name": "huskycms/hc-core",
+    "type": "huskycms-core",
+    "description": "HuskyCMS core functionality",
+    "authors": [
+        {
+            "name": "Mylotskyi Oleksii",
+            "email": "spalaxinco@gmail.com"
+        }
+    ],
+    "keywords": [
+        "huskycms", "core"
+    ],
+    "license": "MIT",
+    "homepage": "http://huskycms.com/hc-core",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://spalax:spalax@packages.milsdev.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/PHPUnit": "3.7.*"
+    },
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "autoload": {
+        "psr-0": {
+            "HcCore": "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
+    },
+    "minimum-stability": "dev"
+}
