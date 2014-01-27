@@ -23,7 +23,10 @@
         "phpunit/PHPUnit": "3.7.*"
     },
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=5.3.3",
+        "zf-commons/zfc-user": "0.*",
+        "spalax/zf2-libs": "dev-master",
+        "spalax/zf2-simple-acl": "dev-master"
     },
     "autoload": {
         "psr-0": {
