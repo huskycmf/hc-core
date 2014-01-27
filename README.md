@@ -1,4 +1,4 @@
-h-core
+hc-core
 ======
 
 Husky Core
