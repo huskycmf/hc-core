@@ -15,12 +15,50 @@ class FiltrationService implements FiltrationServiceInterface
      */
     public function apply(Parameters $params, QueryBuilder $qb, $tableAlias = '')
     {
-        foreach($params as $field=>$param) {
-            if ($param == '*' || empty($param)) continue;
-            $qb->andWhere($qb->expr()->eq($tableAlias.'.'.$field, ':'.$field));
-            $qb->setParameter($field, $param);
+        foreach($params as $cond=>$param) {
+            if ($param == '*' || !isset($param)) continue;
+
+            list($fieldName, $expr) = $this->_getExpr($tableAlias, $cond, $qb->expr());
+
+            $qb->andWhere($expr)->setParameter($fieldName, $param);
         }
 
         return $qb;
+    }
+
+    /**
+     * @param string $tableAlias
+     * @param string $cond
+     * @param Expr $expr
+     * @return array
+     */
+    protected function _getExpr($tableAlias, $cond, Expr $expr)
+    {
+        if (!preg_match('/(>=|<=|<|>|=|\!=)/', $cond, $matches)) {
+            $operator = '=';
+        } else {
+            $operator = trim($matches[1]);
+            $cond = trim(str_replace($operator, '', $cond));
+        }
+
+        $method = '';
+
+        switch ($operator) {
+            case Expr\Comparison::NEQ :
+                $method = 'neq'; break;
+            case Expr\Comparison::GT :
+                $method = 'gt'; break;
+            case Expr\Comparison::LT :
+                $method = 'lt'; break;
+            case Expr\Comparison::LTE :
+                $method = 'lte'; break;
+            case Expr\Comparison::GTE :
+                $method = 'gte'; break;
+            case Expr\Comparison::EQ :
+            default:
+                $method = 'eq';
+        }
+
+        return array($cond, $expr->{$method}($tableAlias.'.'.$cond, ':'.$cond));
     }
 }
