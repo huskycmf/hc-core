@@ -16,7 +16,7 @@
     "repositories": [
         {
             "type": "composer",
-            "url": "http://spalax:spalax@packages.milsdev.com"
+            "url": "http://packages.milsdev.com"
         }
     ],
     "require-dev": {
