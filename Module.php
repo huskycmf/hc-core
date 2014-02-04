@@ -1,8 +1,26 @@
 <?php
 namespace HcCore;
 
+use Zend\Mvc\MvcEvent;
+
 class Module
 {
+    /**
+     * @param MvcEvent $e
+     */
+    public function onBootstrap(MvcEvent $e)
+    {
+        /* @var $sm \Zend\ServiceManager\ServiceManager */
+        $sm = $e->getApplication()->getServiceManager();
+
+        /* @var $di \Zend\Di\Di */
+        $di = $sm->get('di');
+
+        $di->instanceManager()
+           ->addSharedInstance($sm->get('HcCore\Options\ModuleOptions'),
+                               'HcCore\Options\ModuleOptions');
+    }
+
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';

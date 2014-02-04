@@ -1,5 +1,5 @@
 <?php
-namespace HcCore\Factory;
+namespace HcCore\Service;
 
 use HcCore\Exception\InvalidArgumentException;
 use Doctrine\Common\Collections\ArrayCollection;

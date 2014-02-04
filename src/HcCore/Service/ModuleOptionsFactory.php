@@ -7,9 +7,15 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ModuleOptionsFactory implements FactoryInterface
 {
+    /**
+     * @param ServiceLocatorInterface $services
+     * @return ModuleOptions|mixed
+     */
     public function createService(ServiceLocatorInterface $services)
     {
         $config = $services->get('Configuration');
-        return new ModuleOptions(isset($config['hc-core']) ? $config['hc-core'] : array());
+        $moduleOption = new ModuleOptions(isset($config['hc-core']) ? $config['hc-core'] : array());
+
+        return $moduleOption;
     }
 }

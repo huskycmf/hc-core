@@ -7,7 +7,7 @@ use HcCore\Service\FetchServiceInterface;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Mvc\MvcEvent;
 use Zf2Libs\Paginator\ViewModel\JsonModelInterface;
-use HcCore\Factory\DojoRestStorePaginatorFactory;
+use HcCore\Service\DojoRestStorePaginatorFactory;
 
 class ResourceListController extends AbstractResourceController
 {
