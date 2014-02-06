@@ -1,6 +1,7 @@
 <?php
 namespace HcCore\Controller\Common\Rest\Collection;
 
+use HcCore\Controller\Common\Collection\AbstractResourceController;
 use HcCore\Service\FetchServiceInterface;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\JsonModel;

@@ -2,6 +2,7 @@
 namespace HcCore\Controller\Common\Rest\Collection;
 
 use Doctrine\ORM\QueryBuilder;
+use HcCore\Controller\Common\Collection\AbstractResourceController;
 use HcCore\Service\Fetch\Paginator;
 use HcCore\Service\FetchServiceInterface;
 use Zend\Http\PhpEnvironment\Request;
@@ -27,6 +28,12 @@ class ResourceListController extends AbstractResourceController
      */
     protected $viewModel;
 
+    /**
+     * @param FetchServiceInterface $fetchService
+     * @param Paginator\ResourceDataInterface $paginatorDataFetchService
+     * @param DojoRestStorePaginatorFactory $paginator
+     * @param JsonModelInterface $viewModel
+     */
     public function __construct(FetchServiceInterface $fetchService,
                                 Paginator\ResourceDataInterface $paginatorDataFetchService,
                                 DojoRestStorePaginatorFactory $paginator,
