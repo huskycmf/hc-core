@@ -1,7 +1,7 @@
 <?php
 return array(
     'class' => array(
-        'HcCore\Controller\Common\Collection\DataController' => array(
+        'HcCore\Controller\Common\Rest\Collection\DataController' => array(
             '__construct' => array(
                 'inputData' => array(
                     'type' => 'HcCore\Data\DataMessagesInterface',
