@@ -6,7 +6,7 @@ use Zend\Stdlib\ResponseInterface as Response;
 use Zend\Stdlib\RequestInterface;
 use ZfcUser\Authentication\Adapter\AdapterChain;
 
-class AuthService
+class AuthService implements AuthServiceInterface
 {
     /**
      * @var AdapterChain
