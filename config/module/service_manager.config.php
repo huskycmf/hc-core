@@ -10,6 +10,7 @@ return array(
     ),
 
     'delegators' => array(
-        'RoutePluginManager' => array('Zf2Libs\Mvc\Router\Delegator\RoutePluginManagerDelegator')
+        'RoutePluginManager' => array('Zf2Libs\Mvc\Router\Delegator\RoutePluginManagerDelegator',
+                                      'HcCore\Mvc\Router\Delegator\RoutePluginManagerDelegator')
     )
 );
