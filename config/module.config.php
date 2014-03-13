@@ -11,7 +11,6 @@ return array(
     'service_manager' => include __DIR__ . '/module/service_manager.config.php',
 
     'hc-core'=> array(
-        'defaultUserRole' => '2',
-        'defaultLanguage' => 'ru'
+        'defaultUserRole' => '2'
     )
 );
