@@ -55,7 +55,6 @@ class HasLang extends Literal
             return new RouteMatch($this->defaults, strlen($this->route));
         }
 
-
         if ($match = $this->checkPathByRegex($path)) {
             return $match;
         }
@@ -70,10 +69,13 @@ class HasLang extends Literal
      */
     public function assemble(array $params = array(), array $options = array())
     {
-        if (array_key_exists('lang', $params) && !empty($params['lang'])) {
-            return $this->route.$params['lang'].'/';
+        if (array_key_exists('lang', $this->defaults) &&
+            !empty($this->defaults['lang']) && strlen($this->defaults['lang'])) {
+            $lang = $this->defaults['lang'].'/';
         } else {
-            return $this->route;
+            $lang = '';
         }
+
+        return $this->route.$lang;
     }
 }
