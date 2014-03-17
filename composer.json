@@ -24,7 +24,8 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "spalax/zf2-libs": "dev-master"
+        "spalax/zf2-libs": "dev-master",
+        "zendframework/zendframework": ">=2.3"
     },
     "autoload": {
         "psr-0": {
