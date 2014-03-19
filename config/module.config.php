@@ -3,7 +3,8 @@ return array(
     'router' => include __DIR__ . '/module/router.config.php',
     'controller_plugins' => array(
         'invokables' => array(
-            'Params' => 'Zf2Libs\Mvc\Controller\Plugin\Params'
+            'Params' => 'Zf2Libs\Mvc\Controller\Plugin\Params',
+            'CurrentLang' => 'HcCore\Mvc\Controller\Plugin\CurrentLang'
         )
     ),
 
