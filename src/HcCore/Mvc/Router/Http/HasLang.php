@@ -72,6 +72,8 @@ class HasLang extends Literal
         if (array_key_exists('lang', $this->defaults) &&
             !empty($this->defaults['lang']) && strlen($this->defaults['lang'])) {
             $lang = $this->defaults['lang'].'/';
+        } else if (array_key_exists('lang', $params)) {
+            $lang = $params['lang'].'/';
         } else {
             $lang = '';
         }
