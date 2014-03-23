@@ -8,6 +8,19 @@ return array(
         )
     ),
 
+    'doctrine' => array(
+        'driver' => array(
+            'app_driver' => array(
+                'paths' => array(__DIR__ . '/../src/HcCore/Entity')
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                    'HcCore\Entity' => 'app_driver'
+                )
+            )
+        )
+    ),
+
     'di' => include __DIR__ . '/module/di.config.php',
     'service_manager' => include __DIR__ . '/module/service_manager.config.php',
 
