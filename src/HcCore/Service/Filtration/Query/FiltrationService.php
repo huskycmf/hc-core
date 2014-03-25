@@ -8,6 +8,19 @@ use Zend\Stdlib\Parameters;
 class FiltrationService implements FiltrationServiceInterface
 {
     /**
+     * @var array
+     */
+    protected $fieldToQueryColumnMap = array();
+
+    /**
+     * @param array $fieldToQueryColumnMap
+     */
+    public function __construct($fieldToQueryColumnMap = array())
+    {
+        $this->fieldToQueryColumnMap = $fieldToQueryColumnMap;
+    }
+
+    /**
      * @param Parameters $params
      * @param QueryBuilder $qb
      * @param string $tableAlias
@@ -15,10 +28,10 @@ class FiltrationService implements FiltrationServiceInterface
      */
     public function apply(Parameters $params, QueryBuilder $qb, $tableAlias = '')
     {
-        foreach($params as $cond=>$param) {
+        foreach($params as $fieldName => $param) {
             if ($param == '*' || !isset($param)) continue;
 
-            list($fieldName, $expr) = $this->_getExpr($tableAlias, $cond, $qb->expr());
+            list($fieldName, $expr) = $this->_getExpr($tableAlias, $fieldName, $qb->expr());
 
             $qb->andWhere($expr)->setParameter($fieldName, $param);
         }
@@ -28,20 +41,18 @@ class FiltrationService implements FiltrationServiceInterface
 
     /**
      * @param string $tableAlias
-     * @param string $cond
+     * @param string $fieldName
      * @param Expr $expr
      * @return array
      */
-    protected function _getExpr($tableAlias, $cond, Expr $expr)
+    protected function _getExpr($tableAlias, $fieldName, Expr $expr)
     {
-        if (!preg_match('/(>=|<=|<|>|=|\!=)/', $cond, $matches)) {
+        if (!preg_match('/(>=|<=|<|>|=|\!=)/', $fieldName, $matches)) {
             $operator = '=';
         } else {
             $operator = trim($matches[1]);
-            $cond = trim(str_replace($operator, '', $cond));
+            $fieldName = trim(str_replace($operator, '', $fieldName));
         }
-
-        $method = '';
 
         switch ($operator) {
             case Expr\Comparison::NEQ :
@@ -59,6 +70,24 @@ class FiltrationService implements FiltrationServiceInterface
                 $method = 'eq';
         }
 
-        return array($cond, $expr->{$method}($tableAlias.'.'.$cond, ':'.$cond));
+        $expr = $expr->{$method}($this->getQueryColumn($fieldName, $tableAlias), ':'.$fieldName);
+
+        return array($fieldName, $expr);
+    }
+
+    /**
+     * @param string $fieldName
+     * @param string $tableAlias
+     * @return string
+     */
+    protected function getQueryColumn($fieldName, $tableAlias)
+    {
+        if (array_key_exists($fieldName, $this->fieldToQueryColumnMap)) {
+            return $this->fieldToQueryColumnMap[$fieldName];
+        } else if (!empty($tableAlias)) {
+            return $tableAlias.'.'.$fieldName;
+        } else {
+            return $fieldName;
+        }
     }
 }
