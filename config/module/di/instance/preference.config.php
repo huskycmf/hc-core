@@ -18,6 +18,9 @@ return array(
     'HcCore\Service\Filtration\Collection\FiltrationServiceInterface' =>
         'HcCore\Service\Filtration\Collection\FiltrationService',
 
+    'HcCore\Service\LocaleBinderServiceInterface' =>
+        'HcCore\Service\LocaleBinderService',
+
     'HcCore\Options\AclOptionsInterface' =>
         'HcCore\Options\ModuleOptions',
 
