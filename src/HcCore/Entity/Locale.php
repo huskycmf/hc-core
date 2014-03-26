@@ -21,11 +21,32 @@ class Locale implements EntityInterface
     private $id;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="priority", type="integer", nullable=false, options={"unsigned"=true})
+     */
+    private $priority;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=100, nullable=false)
+     */
+    private $title;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="locale", type="string", length=5, nullable=false)
      */
     private $locale;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_default", type="boolean", nullable=false, options={"unsigned"=true})
+     */
+    private $isDefault;
 
     /**
      * Get id
@@ -35,6 +56,52 @@ class Locale implements EntityInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set priority
+     *
+     * @param integer $priority
+     * @return Locale
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
+
+    /**
+     * Get priority
+     *
+     * @return integer 
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Locale
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     /**
@@ -58,5 +125,28 @@ class Locale implements EntityInterface
     public function getLocale()
     {
         return $this->locale;
+    }
+
+    /**
+     * Set isDefault
+     *
+     * @param boolean $isDefault
+     * @return Locale
+     */
+    public function setIsDefault($isDefault)
+    {
+        $this->isDefault = $isDefault;
+
+        return $this;
+    }
+
+    /**
+     * Get isDefault
+     *
+     * @return boolean 
+     */
+    public function getIsDefault()
+    {
+        return $this->isDefault;
     }
 }
