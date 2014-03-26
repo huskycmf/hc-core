@@ -8,30 +8,25 @@ use Zend\Stdlib\Parameters;
 class FiltrationService implements FiltrationServiceInterface
 {
     /**
-     * @var array
-     */
-    protected $fieldToQueryColumnMap = array();
-
-    /**
-     * @param array $fieldToQueryColumnMap
-     */
-    public function __construct($fieldToQueryColumnMap = array())
-    {
-        $this->fieldToQueryColumnMap = $fieldToQueryColumnMap;
-    }
-
-    /**
      * @param Parameters $params
      * @param QueryBuilder $qb
      * @param string $tableAlias
+     * @param array $fieldToQueryColumnMap [OPTIONAL]
      * @return QueryBuilder
      */
-    public function apply(Parameters $params, QueryBuilder $qb, $tableAlias = '')
+    public function apply(Parameters $params, QueryBuilder $qb,
+                          $tableAlias = '', array $fieldToQueryColumnMap = array())
     {
+        $this->fieldToQueryColumnMap = $fieldToQueryColumnMap;
+
         foreach($params as $fieldName => $param) {
             if ($param == '*' || !isset($param)) continue;
 
-            list($fieldName, $expr) = $this->_getExpr($tableAlias, $fieldName, $qb->expr());
+            list($fieldName, $method) = $this->_processFieldName($fieldName);
+
+            $expr = $qb->expr()->{$method}($this->getQueryColumn($fieldName,
+                                                                 $tableAlias,
+                                                                 $fieldToQueryColumnMap), ':'.$fieldName);
 
             $qb->andWhere($expr)->setParameter($fieldName, $param);
         }
@@ -40,12 +35,10 @@ class FiltrationService implements FiltrationServiceInterface
     }
 
     /**
-     * @param string $tableAlias
      * @param string $fieldName
-     * @param Expr $expr
      * @return array
      */
-    protected function _getExpr($tableAlias, $fieldName, Expr $expr)
+    protected function _processFieldName($fieldName)
     {
         if (!preg_match('/(>=|<=|<|>|=|\!=)/', $fieldName, $matches)) {
             $operator = '=';
@@ -70,20 +63,19 @@ class FiltrationService implements FiltrationServiceInterface
                 $method = 'eq';
         }
 
-        $expr = $expr->{$method}($this->getQueryColumn($fieldName, $tableAlias), ':'.$fieldName);
-
-        return array($fieldName, $expr);
+        return array($fieldName, $method);
     }
 
     /**
      * @param string $fieldName
      * @param string $tableAlias
+     * @param array $fieldToQueryColumnMap [OPTIONAL]
      * @return string
      */
-    protected function getQueryColumn($fieldName, $tableAlias)
+    protected function getQueryColumn($fieldName, $tableAlias, array $fieldToQueryColumnMap = array())
     {
-        if (array_key_exists($fieldName, $this->fieldToQueryColumnMap)) {
-            return $this->fieldToQueryColumnMap[$fieldName];
+        if (!empty($fieldToQueryColumnMap) && array_key_exists($fieldName, $fieldToQueryColumnMap)) {
+            return $fieldToQueryColumnMap[$fieldName];
         } else if (!empty($tableAlias)) {
             return $tableAlias.'.'.$fieldName;
         } else {
