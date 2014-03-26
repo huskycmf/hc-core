@@ -19,8 +19,8 @@ class FiltrationService implements FiltrationServiceInterface
     {
         $this->fieldToQueryColumnMap = $fieldToQueryColumnMap;
 
-        foreach($params as $fieldName => $param) {
-            if ($param == '*' || !isset($param)) continue;
+        foreach($params as $fieldName => $value) {
+            if ($value == '*' || !isset($value)) continue;
 
             list($fieldName, $method) = $this->_processFieldName($fieldName);
 
@@ -28,7 +28,7 @@ class FiltrationService implements FiltrationServiceInterface
                                                                  $tableAlias,
                                                                  $fieldToQueryColumnMap), ':'.$fieldName);
 
-            $qb->andWhere($expr)->setParameter($fieldName, $param);
+            $qb->andWhere($expr)->setParameter($fieldName, $value);
         }
 
         return $qb;
