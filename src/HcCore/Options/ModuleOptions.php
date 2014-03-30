@@ -11,26 +11,26 @@ class ModuleOptions extends AbstractOptions implements AclOptionsInterface
     protected $defaultUserRole;
 
     /**
-     * @var string
+     * @var bool
      */
-    protected $defaultLanguage;
+    protected $includeValidatorLocalizedMessages = true;
 
     /**
-     * @param string $defaultLanguage
-     * @return ModuleOptions
+     * @param boolean $includeValidatorLocalizedMessages
+     * @return $this
      */
-    public function setDefaultLanguage($defaultLanguage)
+    public function setIncludeValidatorLocalizedMessages($includeValidatorLocalizedMessages)
     {
-        $this->defaultLanguage = $defaultLanguage;
+        $this->includeValidatorLocalizedMessages = (boolean)$includeValidatorLocalizedMessages;
         return $this;
     }
 
     /**
-     * @return string
+     * @return boolean
      */
-    public function getDefaultLanguage()
+    public function getIncludeValidatorLocalizedMessages()
     {
-        return $this->defaultLanguage;
+        return $this->includeValidatorLocalizedMessages;
     }
 
     /**

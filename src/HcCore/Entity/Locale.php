@@ -42,6 +42,13 @@ class Locale implements EntityInterface
     private $locale;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="lang", type="string", length=2, nullable=false)
+     */
+    private $lang;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="is_default", type="boolean", nullable=false, options={"unsigned"=true})
@@ -148,5 +155,28 @@ class Locale implements EntityInterface
     public function getIsDefault()
     {
         return $this->isDefault;
+    }
+
+    /**
+     * Set lang
+     *
+     * @param string $lang
+     * @return Locale
+     */
+    public function setLang($lang)
+    {
+        $this->lang = $lang;
+
+        return $this;
+    }
+
+    /**
+     * Get lang
+     *
+     * @return string 
+     */
+    public function getLang()
+    {
+        return $this->lang;
     }
 }
