@@ -5,7 +5,7 @@ return array(
         'Zend\Authentication\AuthenticationService' => 'HcCore\Service\AuthenticationServiceFactory',
         'Zend\I18n\Translator\TranslatorInterface' => 'Zend\I18n\Translator\TranslatorServiceFactory',
         'Zend\Mvc\Router\Http\TreeRouteStack' => function ($sm) { return $sm->get('router'); },
-        'Zend\Cache\Service\StorageCacheFactory' => 'Zend\Cache\Service\StorageCacheFactory'
+        'HcCore-CacheStorage' => 'Zend\Cache\Service\StorageCacheFactory'
     ),
 
     'delegators' => array(

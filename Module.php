@@ -26,11 +26,13 @@ class Module
 
         $eventManager = $e->getApplication()->getEventManager();
 
+        /* @var $cacheStorage \Zend\Cache\Storage\StorageInterface */
+        $cacheStorage = $sm->get('HcCore-CacheStorage');
+
+        $di->instanceManager()->addTypePreference('Zend\Cache\Storage\StorageInterface', get_class($cacheStorage));
+        $di->instanceManager()->addSharedInstance($cacheStorage, get_class($cacheStorage));
+
         if ($moduleOptions->getIncludeValidatorLocalizedMessages()) {
-
-            /* @var $cacheStorage \Zend\Cache\Storage\StorageInterface */
-            $cacheStorage = $sm->get('Zend\Cache\Service\StorageCacheFactory');
-
             $translatorCacheId = 'HcCore_Validator_Translator';
             if (!$cacheStorage->hasItem($translatorCacheId)) {
                 /* @var $fetchAllService \HcCore\Service\Fetch\Locale\FetchAllService */
@@ -58,7 +60,6 @@ class Module
 
             \Zend\Validator\AbstractValidator::setDefaultTranslator($cacheStorage->getItem($translatorCacheId));
         }
-
         $eventManager->attach(MvcEvent::EVENT_ROUTE, array($this, 'initLocale'), -1001);
     }
 
@@ -95,6 +96,7 @@ class Module
             }
         }
 
+        $di->instanceManager()->addSharedInstance($localeEntity, 'HcCore\Entity\Locale');
         \Locale::setDefault($localeEntity->getLocale());
     }
 

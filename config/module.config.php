@@ -10,12 +10,15 @@ return array(
 
     'cache' => array(
         'adapter' => array(
-            'name'    => 'apc',
-            'options' => array('ttl' => 2592000) // cache for 30 days
+            'name' => 'apc',
+            'options' => array(
+                'ttl' => 2592000 // cache for 30 days
+            )
         ),
 
         'plugins' => array(
             'exception_handler' => array('throw_exceptions' => false),
+            'serializer'
         )
     ),
 
