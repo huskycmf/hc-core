@@ -60,7 +60,7 @@ abstract class AbstractResourceController extends AbstractController
      */
     protected function fetchResourceEntity()
     {
-       return $this->fetchService
+        return $this->fetchService
                    ->fetch($this->params()
                                 ->fromRoute($this->routerParameterName));
     }

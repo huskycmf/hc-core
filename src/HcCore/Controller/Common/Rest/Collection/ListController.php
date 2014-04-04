@@ -4,7 +4,6 @@ namespace HcCore\Controller\Common\Rest\Collection;
 use HcCore\Service\Fetch\Paginator;
 use Zend\Mvc\Controller\AbstractController;
 use HcCore\Service\DojoRestStorePaginatorFactory;
-use Zend\Http\Request;
 use Zend\Mvc\MvcEvent;
 use Zf2Libs\Paginator\ViewModel\JsonModelInterface;
 
