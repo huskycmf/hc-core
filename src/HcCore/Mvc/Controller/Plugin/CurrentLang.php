@@ -10,6 +10,6 @@ class CurrentLang extends AbstractPlugin
      */
     public function __invoke()
     {
-        return \Locale::getPrimaryLanguage(\Locale::getDefault());
+        return \Locale::getDefault();
     }
 }
