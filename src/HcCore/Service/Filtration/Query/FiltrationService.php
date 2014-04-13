@@ -20,6 +20,8 @@ class FiltrationService implements FiltrationServiceInterface
         $this->fieldToQueryColumnMap = $fieldToQueryColumnMap;
 
         foreach($params as $fieldName => $value) {
+            if ($fieldName == 'sort') continue;
+
             if ($value == '*' || !isset($value)) continue;
 
             list($fieldName, $method) = $this->_processFieldName($fieldName);
