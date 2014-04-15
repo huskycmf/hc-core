@@ -60,7 +60,9 @@ class Module
 
             \Zend\Validator\AbstractValidator::setDefaultTranslator($cacheStorage->getItem($translatorCacheId));
         }
-        $eventManager->attach(MvcEvent::EVENT_ROUTE, array($this, 'initLocale'), PHP_INT_MAX);
+
+        $eventManager->attach(MvcEvent::EVENT_ROUTE, array($this, 'initLocale'), -10000);
+        $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'initLocale'), -10000);
     }
 
     /**
@@ -98,7 +100,9 @@ class Module
             $translator->setLocale($localeEntity->getLocale());
             if (!empty($lang)) {
                 $e->getResponse()->setStatusCode(404);
-                $e->getRouteMatch()->setParam('lang', '');
+                if (!is_null($e->getRouteMatch())) {
+                    $e->getRouteMatch()->setParam('lang', '');
+                }
             }
         }
 

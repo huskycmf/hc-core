@@ -69,12 +69,12 @@ class HasLang extends Literal
      */
     public function assemble(array $params = array(), array $options = array())
     {
-        if (array_key_exists('lang', $this->defaults) &&
+        if (array_key_exists('lang', $params)) {
+            $lang = $params['lang'].'/';
+        } else if (array_key_exists('lang', $this->defaults) &&
             !empty($this->defaults['lang']) && strlen($this->defaults['lang'])) {
             $lang = $this->defaults['lang'].'/';
-        } else if (array_key_exists('lang', $params)) {
-            $lang = $params['lang'].'/';
-        } else {
+        }  else {
             $lang = '';
         }
 
