@@ -1,6 +1,7 @@
 <?php
 namespace HcCore;
 
+use Assetic\Factory\Resource\DirectoryResourceIterator;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
@@ -45,20 +46,27 @@ class Module
                                                                 $sm->get('Zend\I18n\Translator\TranslatorInterface')),
                                                         false);
 
-                $template = 'vendor/zendframework/zendframework/resources/languages/%s/Zend_Validate.php';
+
+                $templates = array('vendor/zendframework/zendframework/resources/languages/%s/Zend_Validate.php',
+                                   'vendor/zendframework/zendframework/resources/languages/%s/Zend_Captcha.php');
+
                 foreach ($fetchAllService->fetch() as $localeEntity) {
-                    if (file_exists($resourcePath = sprintf($template, $localeEntity->getLang()))) {
-                        $validatorTranslator->addTranslationFile('phpArray',
-                                                                 $resourcePath,
-                                                                 'default',
-                                                                 $localeEntity->getLocale());
+                    foreach ($templates as $template) {
+                        if (file_exists($resourcePath = sprintf($template, $localeEntity->getLang()))) {
+                            $validatorTranslator->addTranslationFile('phpArray',
+                                                                     $resourcePath,
+                                                                     'default',
+                                                                     $localeEntity->getLocale());
+                        }
                     }
                 }
 
                 $cacheStorage->setItem($translatorCacheId, $validatorTranslator);
+            } else {
+                $validatorTranslator = $cacheStorage->getItem($translatorCacheId);
             }
 
-            \Zend\Validator\AbstractValidator::setDefaultTranslator($cacheStorage->getItem($translatorCacheId));
+            \Zend\Validator\AbstractValidator::setDefaultTranslator($validatorTranslator);
         }
 
         $eventManager->attach(MvcEvent::EVENT_ROUTE, array($this, 'initLocale'), -10000);
