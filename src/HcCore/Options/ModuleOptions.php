@@ -16,6 +16,11 @@ class ModuleOptions extends AbstractOptions implements AclOptionsInterface
     protected $includeValidatorLocalizedMessages = true;
 
     /**
+     * @var bool
+     */
+    protected $enableLocalization = true;
+
+    /**
      * @param boolean $includeValidatorLocalizedMessages
      * @return $this
      */
@@ -49,5 +54,21 @@ class ModuleOptions extends AbstractOptions implements AclOptionsInterface
     public function getDefaultUserRole()
     {
         return $this->defaultUserRole;
+    }
+
+    /**
+     * @param boolean $enableLocalization
+     */
+    public function setEnableLocalization($enableLocalization)
+    {
+        $this->enableLocalization = $enableLocalization;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getEnableLocalization()
+    {
+        return $this->enableLocalization;
     }
 }

@@ -1,24 +1,48 @@
 <?php
 namespace HcCore;
 
-use Assetic\Factory\Resource\DirectoryResourceIterator;
-use Zend\Mvc\ModuleRouteListener;
+use Doctrine\ORM\EntityManager;
 use Zend\Mvc\MvcEvent;
+use Zend\ServiceManager\ServiceManager;
+use HcCore\Options\ModuleOptions;
+use Zend\Di\Di;
 
 class Module
 {
+    /**
+     * @param ServiceManager $sm
+     * @param ModuleOptions $moduleOptions
+     * @return bool
+     */
+    protected function enabledLocalization(ServiceManager $sm, ModuleOptions $moduleOptions)
+    {
+        if (!$moduleOptions->getEnableLocalization()) {
+            return false;
+        }
+
+        /* @var $em EntityManager */
+        $em = $sm->get('Doctrine\ORM\EntityManager');
+        $schemaManager = $em->getConnection()->getSchemaManager();
+
+        if (!$schemaManager->tablesExist(array('locale'))) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * @param MvcEvent $e
      */
     public function onBootstrap(MvcEvent $e)
     {
-        /* @var $sm \Zend\ServiceManager\ServiceManager */
+        /* @var $sm ServiceManager */
         $sm = $e->getApplication()->getServiceManager();
 
-        /* @var $di \Zend\Di\Di */
+        /* @var $di Di */
         $di = $sm->get('di');
 
-        /* @var $moduleOptions \HcCore\Options\ModuleOptions */
+        /* @var $moduleOptions ModuleOptions */
         $moduleOptions = $sm->get('HcCore\Options\ModuleOptions');
 
         $di->instanceManager()
@@ -33,17 +57,23 @@ class Module
         $di->instanceManager()->addTypePreference('Zend\Cache\Storage\StorageInterface', get_class($cacheStorage));
         $di->instanceManager()->addSharedInstance($cacheStorage, get_class($cacheStorage));
 
+        if (!$this->enabledLocalization($sm, $moduleOptions)) {
+            return;
+        }
+
         if ($moduleOptions->getIncludeValidatorLocalizedMessages()) {
             $translatorCacheId = 'HcCore_Validator_Translator';
             if (!$cacheStorage->hasItem($translatorCacheId)) {
                 /* @var $fetchAllService \HcCore\Service\Fetch\Locale\FetchAllService */
                 $fetchAllService = $di->newInstance('HcCore\Service\Fetch\Locale\FetchAllService',
-                                                    array('entityManager'=>$sm->get('Doctrine\ORM\EntityManager')));
+                                                    array('entityManager'=>
+                                                                $sm->get('Doctrine\ORM\EntityManager')));
+
+                $translator = $sm->get('Zend\I18n\Translator\TranslatorInterface');
 
                 /* @var $validatorTranslator \Zend\Mvc\I18n\Translator */
                 $validatorTranslator = $di->newInstance('Zend\Mvc\I18n\Translator',
-                                                        array('translator'=>
-                                                                $sm->get('Zend\I18n\Translator\TranslatorInterface')),
+                                                        array('translator'=> $translator),
                                                         false);
 
 
