@@ -26,7 +26,8 @@
         "php": ">=5.3.3",
         "ext-apc": ">=3.1.6",
         "spalax/zf2-libs": "dev-master",
-        "zendframework/zendframework": "2.3.0"
+        "zendframework/zendframework": "2.3.0",
+        "doctrine/migrations": "*"
     },
     "autoload": {
         "psr-0": {
