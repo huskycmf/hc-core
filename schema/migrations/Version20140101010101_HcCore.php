@@ -14,11 +14,10 @@ class Version20140101010101_HcCore extends AbstractMigration
     {
         $this->addSql('CREATE TABLE IF NOT EXISTS `locale` (
                           `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                          `priority` TINYINT UNSIGNED NOT NULL,
+                          `priority` TINYINT UNSIGNED NOT NULL DEFAULT 1,
                           `title` VARCHAR(100) NOT NULL,
                           `lang` VARCHAR(2) NOT NULL,
                           `locale` VARCHAR(5) NOT NULL,
-                          `priority` TINYINT NOT NULL DEFAULT 1,
                           `is_default` TINYINT UNSIGNED NOT NULL DEFAULT 0,
                           PRIMARY KEY (`id`),
                           UNIQUE INDEX `locale_UNIQUE` (`locale` ASC))
