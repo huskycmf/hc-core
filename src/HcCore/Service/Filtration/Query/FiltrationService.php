@@ -11,42 +11,32 @@ class FiltrationService implements FiltrationServiceInterface
      * @param Parameters $params
      * @param QueryBuilder $qb
      * @param string $tableAlias
-     * @param array $fieldToQueryColumnMap [OPTIONAL]
      * @return QueryBuilder
      */
-    public function apply(Parameters $params, QueryBuilder $qb,
-                          $tableAlias = '', array $fieldToQueryColumnMap = array())
+    public function apply(Parameters $params, QueryBuilder $qb, $tableAlias = '')
     {
-        $this->fieldToQueryColumnMap = $fieldToQueryColumnMap;
-
-        foreach($params as $fieldName => $value) {
-            if ($fieldName == 'sort') continue;
-
-            if ($value == '*' || !isset($value)) continue;
-
-            list($fieldName, $method) = $this->_processFieldName($fieldName);
-
-            $expr = $qb->expr()->{$method}($this->getQueryColumn($fieldName,
-                                                                 $tableAlias,
-                                                                 $fieldToQueryColumnMap), ':'.$fieldName);
-
-            $qb->andWhere($expr)->setParameter($fieldName, $value);
+        foreach($params as $cond=>$param) {
+            if ($param == '*' || !isset($param)) continue;
+            list($fieldName, $expr) = $this->_getExpr($tableAlias, $cond, $qb->expr());
+            $qb->andWhere($expr)->setParameter($fieldName, $param);
         }
 
         return $qb;
     }
 
     /**
-     * @param string $fieldName
+     * @param string $tableAlias
+     * @param string $cond
+     * @param Expr $expr
      * @return array
      */
-    protected function _processFieldName($fieldName)
+    protected function _getExpr($tableAlias, $cond, Expr $expr)
     {
-        if (!preg_match('/(>=|<=|<|>|=|\!=)/', $fieldName, $matches)) {
+        if (!preg_match('/(>=|<=|<|>|=|\!=)/', $cond, $matches)) {
             $operator = '=';
         } else {
             $operator = trim($matches[1]);
-            $fieldName = trim(str_replace($operator, '', $fieldName));
+            $cond = trim(str_replace($operator, '', $cond));
         }
 
         switch ($operator) {
@@ -65,23 +55,7 @@ class FiltrationService implements FiltrationServiceInterface
                 $method = 'eq';
         }
 
-        return array($fieldName, $method);
-    }
-
-    /**
-     * @param string $fieldName
-     * @param string $tableAlias
-     * @param array $fieldToQueryColumnMap [OPTIONAL]
-     * @return string
-     */
-    protected function getQueryColumn($fieldName, $tableAlias, array $fieldToQueryColumnMap = array())
-    {
-        if (!empty($fieldToQueryColumnMap) && array_key_exists($fieldName, $fieldToQueryColumnMap)) {
-            return $fieldToQueryColumnMap[$fieldName];
-        } else if (!empty($tableAlias)) {
-            return $tableAlias.'.'.$fieldName;
-        } else {
-            return $fieldName;
-        }
+        $paramName = uniqid($cond.'_');
+        return array($paramName, $expr->{$method}($tableAlias.'.'.$cond, ':'.$paramName));
     }
 }
