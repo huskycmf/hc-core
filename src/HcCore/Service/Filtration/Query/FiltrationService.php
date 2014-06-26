@@ -26,11 +26,13 @@ class FiltrationService implements FiltrationServiceInterface
 
             list($fieldName, $method) = $this->_processFieldName($fieldName);
 
+            $paramName = uniqid($fieldName.'_');
+
             $expr = $qb->expr()->{$method}($this->getQueryColumn($fieldName,
                                                                  $tableAlias,
-                                                                 $fieldToQueryColumnMap), ':'.$fieldName);
+                                                                 $fieldToQueryColumnMap), ':'.$paramName);
 
-            $qb->andWhere($expr)->setParameter($fieldName, $value);
+            $qb->andWhere($expr)->setParameter($paramName, $value);
         }
 
         return $qb;
