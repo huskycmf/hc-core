@@ -3,13 +3,8 @@ namespace HcCore\Options;
 
 use Zend\Stdlib\AbstractOptions;
 
-class ModuleOptions extends AbstractOptions implements AclOptionsInterface
+class ModuleOptions extends AbstractOptions
 {
-    /**
-     * @var int
-     */
-    protected $defaultUserRole;
-
     /**
      * @var bool
      */
@@ -36,24 +31,6 @@ class ModuleOptions extends AbstractOptions implements AclOptionsInterface
     public function getIncludeValidatorLocalizedMessages()
     {
         return $this->includeValidatorLocalizedMessages;
-    }
-
-    /**
-     * @param int $userRole
-     * @return ModuleOptions
-     */
-    public function setDefaultUserRole($userRole)
-    {
-        $this->defaultUserRole = $userRole;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getDefaultUserRole()
-    {
-        return $this->defaultUserRole;
     }
 
     /**

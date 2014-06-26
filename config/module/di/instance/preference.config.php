@@ -21,9 +21,6 @@ return array(
     'HcCore\Service\LocaleBinderServiceInterface' =>
         'HcCore\Service\LocaleBinderService',
 
-    'HcCore\Options\AclOptionsInterface' =>
-        'HcCore\Options\ModuleOptions',
-
     'HcCore\Service\AuthServiceInterface' =>
         'HcCore\Service\AuthService'
 );

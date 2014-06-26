@@ -36,9 +36,5 @@ return array(
     ),
 
     'di' => include __DIR__ . '/module/di.config.php',
-    'service_manager' => include __DIR__ . '/module/service_manager.config.php',
-
-    'hc-core'=> array(
-        'defaultUserRole' => '2'
-    )
+    'service_manager' => include __DIR__ . '/module/service_manager.config.php'
 );

@@ -1,6 +1,6 @@
 <?php
-namespace HcBackend\Options\Exception;
+namespace HcCore\Options\Exception;
 
-use HcBackend\Exception\ExceptionInterface;
+use HcCore\Exception\ExceptionInterface;
 
 class DomainException extends \InvalidArgumentException implements ExceptionInterface {}
