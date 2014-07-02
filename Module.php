@@ -14,7 +14,8 @@ class Module
      * @param ModuleOptions $moduleOptions
      * @return bool
      */
-    protected function enabledLocalization(ServiceManager $sm, ModuleOptions $moduleOptions)
+    protected function enabledLocalization(ServiceManager $sm,
+                                           ModuleOptions $moduleOptions)
     {
         if (!$moduleOptions->getEnableLocalization()) {
             return false;
@@ -122,10 +123,12 @@ class Module
 
         if (!is_null($e->getRouteMatch())) {
             $lang = $e->getRouteMatch()->getParam('lang');
-        } else {
+        } else if ($e->getRequest() instanceof \Zend\Http\PhpEnvironment\Request) {
             /* @var $request \Zend\Http\PhpEnvironment\Request */
             $request = $e->getRequest();
             $lang = substr($request->getRequestUri(), 1, 2);
+        } else {
+            $lang = '';
         }
 
         /* @var $localeEntity \HcCore\Entity\Locale */
