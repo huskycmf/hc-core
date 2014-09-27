@@ -38,7 +38,7 @@ class Extractor implements ExtractorInterface
 
         if ($request->getHeader('ContentType')->getFieldValue() == 'application/json' &&
             strlen($request->getContent()) > 0) {
-            return (array)$this->jsonService->decode($request->getContent());
+            return (array)$this->jsonService->decode($request->getContent(), Json::TYPE_ARRAY);
         } else {
             return $request->getPost()->toArray();
         }
