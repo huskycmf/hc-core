@@ -23,7 +23,6 @@ class Extractor implements ExtractorInterface
      *
      * @param object $request
      * @throws \Zf2Libs\Stdlib\Extractor\Exception\InvalidArgumentException
-     * @internal param object $user
      * @return mixed
      */
     public function extract($request)
