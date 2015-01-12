@@ -14,6 +14,19 @@ use Zf2Libs\Paginator\DojoRestStore\Paginator;
 class DojoRestStorePaginatorFactory
 {
     /**
+     * @var bool
+     */
+    protected $fetchJoinCollection;
+
+    /**
+     * @param bool $fetchJoinCollection
+     */
+    public function __construct($fetchJoinCollection = true)
+    {
+        $this->fetchJoinCollection = $fetchJoinCollection;
+    }
+
+    /**
      * @param Query | QueryBuilder | ArrayCollection $data
      * @param Request $request
      *
@@ -25,7 +38,7 @@ class DojoRestStorePaginatorFactory
     {
         if ($data instanceof QueryBuilder ||
             $data instanceof Query) {
-            $adapter = new QueryPaginator($data);
+            $adapter = new QueryPaginator($data, $this->fetchJoinCollection);
         } else if ($data instanceof ArrayCollection) {
             $adapter = new CollectionPaginator($data);
         } else {

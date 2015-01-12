@@ -30,6 +30,26 @@ return array(
                 )
             )
         ),
+        'HcCore\Stdlib\Extractor\SimpleEntity' => array(
+            '__construct' => array(
+                'entityManager' => array(
+                    'type' => 'Doctrine\ORM\EntityManagerInterface',
+                    'required' => true
+                ),
+                'entityName' => array(
+                    'type' => false,
+                    'required' => true
+                )
+            )
+        ),
+        'HcCore\Service\DojoRestStorePaginatorFactory' => array(
+            '__construct' => array(
+                'fetchJoinCollection' => array(
+                    'type' => false,
+                    'required' => false
+                )
+            )
+        ),
         'HcCore\Service\Collection\IdsService' => array(
             '__construct' => array(
                 'entityManager' => array(
