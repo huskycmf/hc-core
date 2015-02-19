@@ -47,6 +47,6 @@ class ResourceDeleteController extends AbstractResourceController
             return $e->setResult($this->jsonResponseModelFactory->getFailed($response));
         }
 
-        return $e->setResult($this->jsonResponseModelFactory->getSuccess());
+        return $e->setResult($this->jsonResponseModelFactory->getSuccess($response));
     }
 }

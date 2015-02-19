@@ -62,6 +62,6 @@ class ResourceDataController extends AbstractResourceController
         }
 
         return $e->setResult($this->jsonResponseModelFactory
-                                  ->getSuccess($response instanceof DataInterface ? $response : null));
+                                  ->getSuccess($response));
     }
 }

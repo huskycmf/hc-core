@@ -56,6 +56,6 @@ class DataController extends AbstractController
         }
 
         return $e->setResult($this->jsonResponseModelFactory
-                                  ->getSuccess($response instanceof DataInterface ? $response : null));
+                                  ->getSuccess($response));
     }
 }
