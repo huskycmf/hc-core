@@ -28,7 +28,7 @@ class SortingService implements SortingServiceInterface
         }
 
 
-        $column = $this->getQueryColumn($column,
+        $column = $this->getQueryColumn(trim($column),
                                         $tableAlias,
                                         $fieldToQueryColumnMap);
 
